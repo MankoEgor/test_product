@@ -1,6 +1,11 @@
+import OrderForm from "../components/OrderForm";
+
 function Home(){
     return (
-        <h1>Home Page</h1>
+        <div>
+            <h1>Home Page</h1>
+            <OrderForm />
+        </div>
     );
 }
 
