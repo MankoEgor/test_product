@@ -2,10 +2,10 @@ import OrderForm from "../components/OrderForm";
 
 function Home(){
     return (
-        <div>
-            <h1>Home Page</h1>
+        <>
+            <h1>Преобретайте драгоценное из ничтожного</h1>
             <OrderForm />
-        </div>
+        </>
     );
 }
 

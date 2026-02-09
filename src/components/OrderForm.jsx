@@ -2,10 +2,16 @@ import { useState } from "react";
 
 function OrderForm(){
     const[userPhone, setUserPhone] = useState("");
+    const[userName, setUserName] = useState("");
+    const[userSurname, setUserSurname] = useState("");
     const[error, setError] = useState("");
-    const[status, setStatus] = useState('idle')
+    const[status, setStatus] = useState('idle');
+
 
     const ENDPOINT = import.meta.env.VITE_ORDER_ENDPOINT;
+    
+    console.log("ENDPOINT =", import.meta.env.VITE_ORDER_ENDPOINT);
+    console.log("ENV =", import.meta.env);
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -43,16 +49,17 @@ function OrderForm(){
                 return;
             }
 
+            const body = new URLSearchParams({
+                phone,
+                name: userName,
+                surname: userSurname,
+                page: 'home'
+            });
+
 
             const res = await fetch(ENDPOINT, {
                 method: "POST",
-                headers:{"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    phone,
-                    name: '',
-                    surname: '',
-                    page: 'home'
-                })
+                body,
             });
 
             const data = await res.json();
@@ -62,9 +69,10 @@ function OrderForm(){
                 setError(data.error || "Ошибка отправки");
                 return;
             }
-
             setStatus('success');
             setUserPhone("");
+            setUserName("")
+            setUserSurname("")
 
         } catch(err) {
             setStatus('idle');
@@ -74,6 +82,22 @@ function OrderForm(){
 
     return (
         <form onSubmit={handleSubmit}>
+            <input 
+                type="text" 
+                name="userName" 
+                id="userName" 
+                placeholder="Enter user name" 
+                value={userName} 
+                onChange={(e) => setUserName(e.target.value)} />
+
+            <input 
+                type="text" 
+                name="userSurname" 
+                id="userSurname" 
+                placeholder="Enter user surname" 
+                value={userSurname} 
+                onChange={(e) => setUserSurname(e.target.value)} />
+
             <input 
                 type="text" 
                 name="phoneNumber" 
@@ -88,7 +112,7 @@ function OrderForm(){
                 {status === 'loading' ? 'Отправка...' : 'Заказать звонок'}
             </button>
             {error && <p style={{color: 'red'}}>{error}</p>}
-            {status === 'success' && <p className="success">Запрос отправлен</p>}
+            {status === 'success' && <p className="successOrder">Заявка успешно оправлена</p>}
         </form>
     );
 }

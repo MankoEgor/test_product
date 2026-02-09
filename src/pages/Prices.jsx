@@ -1,6 +1,12 @@
+import OrderForm from "../components/OrderForm";
+
+
 function Prices(){
     return (
-        <h1>Prices Page</h1>
+        <div>
+            <h1>Prices Page</h1>
+            <OrderForm/>
+        </div>
     );
 }
 
